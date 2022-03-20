@@ -13,6 +13,11 @@ $(document).ready(function () {
     search(texto)
   })
 
+  $('#checkpropertiesButton').click(function () {
+    var texto = $('#customSearch').val()
+    comprobarPropiedad()
+  })
+
   $('#volumeButton').click(function () {
     sumarCosas('Volume')
   })
