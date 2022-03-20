@@ -3,20 +3,19 @@ const express = require('express')
 let router = express.Router()
 
 router.get('/test', (req, res) => {
-    console.log(req.query)
-    res.send('este endpoint funcion')
+    res.send('test funciona!!!')
 })
 
 router.post('/test', (req, res) => {
     var email = req.body.email
     if (email === undefined) {
-        return res.json({
+        return res.status(500).json({
             status: 'failed',
             message: 'Es necesario indicar el email'
         })
     }
     res.json({
-        status: 'success', 
+        status: 'success',
         data: req.body
     })
 })
@@ -27,7 +26,7 @@ router.post('/escribir', (req, res) => {
     fs.writeFileSync(`./${fichero}.txt`, texto)
 
     res.json({
-        status: 'success', 
+        status: 'success',
         data: {
             fichero: `${fichero}.txt`,
             texto
@@ -51,7 +50,7 @@ router.get('/seleccion', (req, res) => {
 })
 
 router.post('/seleccion', (req, res) => {
-  const seleccion = `${req.body}` 
+  const seleccion = `${req.body}` // const seleccion = req.body.seleccion
   fs.writeFileSync('./seleccion.txt', seleccion)
 
   res.json({
@@ -61,16 +60,15 @@ router.post('/seleccion', (req, res) => {
 })
 
 router.post('/check', (req, res) => {
-    const data = Object.values(req.body).join(';')
-    console.log(data)
+    const array = Object.values(req.body)
+    array.push('\n')
+    data = array.join(';')
 
-
-    fs.writeFileSync('./checks.csv', data)
+    fs.appendFileSync('./checks.csv', data)
     res.json({
         status: 'success',
-        message: 'Comprobacion guardada correctamente'
+        message: 'Comprobación guardada correctamente'
     })
 })
-
 
 module.exports = router

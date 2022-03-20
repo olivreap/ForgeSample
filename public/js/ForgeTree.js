@@ -13,11 +13,6 @@ $(document).ready(function () {
     search(texto)
   })
 
-  $('#checkpropertiesButton').click(function () {
-    var texto = $('#customSearch').val()
-    comprobarPropiedad()
-  })
-
   $('#volumeButton').click(function () {
     sumarCosas('Volume')
   })
@@ -28,6 +23,16 @@ $(document).ready(function () {
 
   $('#pintarButton').click(function () {
     pintarSeleccion()
+  })
+
+  $('#checkPropiedadesButton').click(function () {
+    var texto = $('#customSearch').val()
+    comprobarPropiedad(texto)
+  })
+
+  $('#parametroButton').click(function () {
+    var texto = $('#parametro').val()
+    getPropValues(texto)
   })
 
   $('#createBucketModal').on('shown.bs.modal', function () {
@@ -115,6 +120,7 @@ function prepareAppBucketTree() {
     .bind('activate_node.jstree', function (evt, data) {
         if (data != null && data.node != null && data.node.type == 'object') {
           $('#forgeViewer').empty()
+          $('#forgeViewer2').empty()
           var urn = data.node.id
           getForgeToken(function (access_token) {
             jQuery.ajax({
